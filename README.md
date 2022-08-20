@@ -13,5 +13,10 @@ This project uses
 * Introducing seperate classes and folders 
 * Used HttpClientFactory insted of HttpClient
 * API base URL Moved to app settings
-* 
+
+## Asumptons
+* Product Id can only be possitive numeric values,  added validations and unit tests to cover that
+
+## Further improvements 
+* Integration tests with WebApplicationFactory 
 
