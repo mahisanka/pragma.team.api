@@ -8,3 +8,10 @@ This project uses
 
 ## Available scripts
 - `dotnet run` - Start the server (Port 8081)
+
+## Improvements 
+* Introducing seperate classes and folders 
+* Used HttpClientFactory insted of HttpClient
+* API base URL Moved to app settings
+* 
+

@@ -1,8 +1,6 @@
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using server.Models;
+using server.Processors;
+using System.Threading.Tasks;
 
 namespace server.Controllers
 {
@@ -10,18 +8,22 @@ namespace server.Controllers
     [Route("[controller]")]
     public class TemperatureController : ControllerBase
     {
+        private readonly ITemperatureProcessor temperatureProcessor;
+
+        public TemperatureController(ITemperatureProcessor temperatureProcessor)
+        {
+            this.temperatureProcessor = temperatureProcessor;
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var http = new HttpClient();
-            var url = string.Format("https://temperature-sensor-service.herokuapp.com/sensor/{0}", id);
+            var sensorData = await temperatureProcessor.GetSensorData(id);
 
-            var response = await http.GetAsync(url);
-            var jsonString = await response.Content.ReadAsStringAsync();
-            var sensorData = JsonSerializer.Deserialize<Sensor>(jsonString, new JsonSerializerOptions {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
-
+            if (sensorData == null)
+            {
+                return BadRequest("Provided id is not valid");
+            }
             return Ok(sensorData);
         }
     }
