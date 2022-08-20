@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using server.Processors;
+using server.Services;
 
 namespace server
 {
@@ -33,6 +29,10 @@ namespace server
                         .AllowAnyHeader()
                     );
             });
+
+            services.AddSingleton<ITemperatureProcessor, TemperatureProcessor>();
+            services.AddSingleton<IHttpClientService, HttpClientService>();
+            services.AddHttpClient();
             services.AddControllers();
         }
 
